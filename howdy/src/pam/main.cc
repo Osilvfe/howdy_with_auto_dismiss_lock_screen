@@ -15,7 +15,7 @@
 #include <sys/wait.h>
 #include <syslog.h>
 #include <unistd.h>
-
+#include <termios.h>
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
