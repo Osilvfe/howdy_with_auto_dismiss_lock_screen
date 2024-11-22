@@ -129,7 +129,7 @@ auto howdy_status(char *username, int status, const INIReader &config,
   syslog(LOG_INFO, "Login approved");
   
   if (config.GetBoolean("core", "dismiss_lockscreen", true)){
-    system("sudo timeout 1 loginctl unlock-sessions --no-ask-password:");
+    system("sudo timeout 1 loginctl unlock-sessions --no-ask-password");
   }
 
   return PAM_SUCCESS;
