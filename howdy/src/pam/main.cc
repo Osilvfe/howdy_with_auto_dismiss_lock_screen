@@ -147,7 +147,7 @@ auto howdy_status(char *username, int status, const INIReader &config,
   syslog(LOG_INFO, "Login approved");
   
   if (config.GetBoolean("core", "dismiss_lockscreen", true)){
-    system("sleep 1");
+    system("sleep 2");
     simulatespace();
   }
 
