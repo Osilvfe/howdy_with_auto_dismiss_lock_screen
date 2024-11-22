@@ -51,7 +51,7 @@ const auto PYTHON_EXECUTABLE = "python3";
 
 #define S(msg) gettext(msg)
 
-//模拟按下空格实现自动解锁
+/* //模拟按下空格实现自动解锁
 void simulatespace(){
     struct termios oldt, newt;
     tcgetattr(STDIN_FILENO, &oldt); // 获取当前终端属性
@@ -67,7 +67,7 @@ void simulatespace(){
 
     // 恢复终端属性
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-}
+} */
 
 /**
  * Inspect the status code returned by the compare process
@@ -147,8 +147,7 @@ auto howdy_status(char *username, int status, const INIReader &config,
   syslog(LOG_INFO, "Login approved");
   
   if (config.GetBoolean("core", "dismiss_lockscreen", true)){
-    system("sleep 2");
-    simulatespace();
+    echo -e '\n';
   }
 
   return PAM_SUCCESS;
