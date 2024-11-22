@@ -51,6 +51,24 @@ const auto PYTHON_EXECUTABLE = "python3";
 
 #define S(msg) gettext(msg)
 
+//模拟按下空格实现自动解锁
+void simulatespace(){
+    struct termios oldt, newt;
+    tcgetattr(STDIN_FILENO, &oldt); // 获取当前终端属性
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO); // 关闭规范输入和回显
+
+    // 设置新的终端属性
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+    // 模拟按键
+    char buf = 32; // 模拟按下'a'键
+    write(STDOUT_FILENO, &buf, 1); // 写入标准输出
+
+    // 恢复终端属性
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+}
+
 /**
  * Inspect the status code returned by the compare process
  * @param  status        The status code
@@ -129,7 +147,7 @@ auto howdy_status(char *username, int status, const INIReader &config,
   syslog(LOG_INFO, "Login approved");
   
   if (config.GetBoolean("core", "dismiss_lockscreen", true)){
-    system("sudo timeout 1 loginctl unlock-sessions --no-ask-password");
+    simulatespace();
   }
 
   return PAM_SUCCESS;
